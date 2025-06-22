@@ -1,0 +1,793 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chatbot học tập trường THCS Nguyễn Tri Phương</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600&display=swap');
+
+        body {
+            font-family: 'Quicksand', sans-serif;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            background-color: #e0f7fa;
+            color: #333;
+            overflow: hidden;
+        }
+
+        #home-menu {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            flex-grow: 1;
+            padding: 20px;
+            text-align: center;
+            background-color: #ffffff;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            border-radius: 10px;
+            margin: 20px;
+        }
+
+        #home-menu h1 {
+            color: #26a69a;
+            margin-bottom: 30px;
+            font-size: 2.5em;
+        }
+
+        .subject-buttons {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 20px;
+            width: 80%;
+            max-width: 900px;
+        }
+
+        .subject-button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            padding: 20px;
+            font-size: 1.2em;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+
+        .subject-button i {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        .subject-button:hover {
+            background-color: #45a049;
+            transform: translateY(-3px);
+        }
+
+        #chatbot-container {
+            display: none;
+            flex-grow: 1;
+            flex-direction: row;
+            overflow: hidden;
+            background-color: #ffffff;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            border-radius: 10px;
+            margin: 20px;
+        }
+
+        #sidebar {
+            width: 200px;
+            background-color: #f0f4c3;
+            padding: 15px;
+            border-right: 1px solid #dce775;
+            display: flex;
+            flex-direction: column;
+            box-shadow: inset -2px 0 5px rgba(0,0,0,0.05);
+        }
+
+        #sidebar h3 {
+            color: #689f38;
+            margin-top: 0;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .sidebar-button {
+            background-color: #c5e1a5;
+            color: #333;
+            border: none;
+            border-radius: 8px;
+            padding: 12px 10px;
+            margin-bottom: 10px;
+            font-size: 1em;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            text-align: left;
+            display: flex;
+            align-items: center;
+        }
+
+        .sidebar-button i {
+            margin-right: 10px;
+            font-size: 1.2em;
+        }
+
+        .sidebar-button.active, .sidebar-button:hover {
+            background-color: #8bc34a;
+            color: white;
+            transform: translateX(3px);
+        }
+
+        .chat-area {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        #khung-tro-chuyen {
+            flex-grow: 1;
+            overflow-y: auto;
+            padding: 15px;
+            border-bottom: 1px solid #b2ebf2;
+            background-color: #ffffff;
+            box-shadow: inset 0 2px 5px rgba(0,0,0,0.05);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .tin-nhan {
+            margin-bottom: 10px;
+            padding: 10px 15px;
+            border-radius: 20px;
+            max-width: 75%;
+            position: relative;
+            word-wrap: break-word;
+            line-height: 1.4;
+        }
+
+        .tin-nhan-nguoi-dung {
+            background-color: #007bff;
+            color: white;
+            margin-left: auto;
+            text-align: right;
+            border-bottom-right-radius: 5px;
+        }
+
+        .tin-nhan-bot {
+            background-color: #e3f2fd;
+            color: #212121;
+            margin-right: auto;
+            text-align: left;
+            border-bottom-left-radius: 5px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+        }
+
+        #khu-vuc-nhap {
+            display: flex;
+            padding: 15px;
+            background-color: #ffffff;
+            border-top: 1px solid #e0e0e0;
+            box-shadow: 0 -2px 8px rgba(0,0,0,0.05);
+            align-items: center;
+        }
+
+        #o-nhap-tin-nhan {
+            flex-grow: 1;
+            padding: 12px 18px;
+            border: 1px solid #c5e1a5;
+            border-radius: 25px;
+            outline: none;
+            font-size: 16px;
+            transition: border-color 0.3s ease;
+        }
+
+        #o-nhap-tin-nhan:focus {
+            border-color: #8bc34a;
+            box-shadow: 0 0 0 3px rgba(139, 195, 74, 0.2);
+        }
+
+        #nut-gui {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 48px;
+            height: 48px;
+            margin-left: 15px;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 24px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            transition: background-color 0.3s ease;
+        }
+
+        #nut-gui:hover {
+            background-color: #45a049;
+        }
+
+        #nut-gui:active {
+            transform: translateY(1px);
+            box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+        }
+
+        @media (max-width: 768px) {
+            #home-menu {
+                margin: 10px;
+                padding: 15px;
+            }
+
+            #home-menu h1 {
+                font-size: 1.8em;
+                margin-bottom: 20px;
+            }
+
+            .subject-buttons {
+                grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+                gap: 15px;
+                width: 95%;
+            }
+
+            .subject-button {
+                padding: 15px;
+                font-size: 1em;
+            }
+
+            .subject-button i {
+                font-size: 2em;
+                margin-bottom: 8px;
+            }
+
+            #chatbot-container {
+                flex-direction: column;
+                margin: 10px;
+                border-radius: 8px;
+            }
+
+            #sidebar {
+                width: 100%;
+                height: auto;
+                border-right: none;
+                border-bottom: 1px solid #dce775;
+                padding: 10px;
+                box-shadow: inset 0 -2px 5px rgba(0,0,0,0.05);
+                flex-direction: row;
+                overflow-x: auto;
+                white-space: nowrap;
+                -webkit-overflow-scrolling: touch;
+            }
+
+            #sidebar h3 {
+                display: none;
+            }
+
+            .sidebar-button {
+                flex-shrink: 0;
+                width: auto;
+                margin-bottom: 0;
+                margin-right: 10px;
+                padding: 8px 12px;
+                font-size: 0.9em;
+            }
+
+            .sidebar-button i {
+                font-size: 1em;
+                margin-right: 5px;
+            }
+
+            .chat-area {
+                min-height: 0;
+            }
+
+            #khung-tro-chuyen {
+                padding: 10px;
+            }
+
+            .tin-nhan {
+                max-width: 85%;
+                padding: 8px 12px;
+                font-size: 0.9em;
+            }
+
+            #khu-vuc-nhap {
+                padding: 10px;
+            }
+
+            #o-nhap-tin-nhan {
+                padding: 10px 15px;
+                font-size: 14px;
+            }
+
+            #nut-gui {
+                width: 40px;
+                height: 40px;
+                font-size: 20px;
+                margin-left: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="home-menu">
+        <h1>Chatbot học tập trường THCS Nguyễn Tri Phương</h1>
+        <div class="subject-buttons">
+            <button class="subject-button" data-subject="ngu-van">
+                <i class="fas fa-book-open"></i>
+                Ngữ Văn
+            </button>
+            <button class="subject-button" data-subject="toan">
+                <i class="fas fa-calculator"></i>
+                Toán
+            </button>
+            <button class="subject-button" data-subject="anh-van">
+                <i class="fas fa-globe"></i>
+                Anh Văn
+            </button>
+            <button class="subject-button" data-subject="khtn">
+                <i class="fas fa-flask"></i>
+                Khoa Học Tự Nhiên
+            </button>
+            <button class="subject-button" data-subject="lich-su-dia-ly">
+                <i class="fas fa-map-marked-alt"></i>
+                Lịch Sử & Địa Lý
+            </button>
+            <button class="subject-button" data-subject="tin-hoc">
+                <i class="fas fa-laptop-code"></i>
+                Tin Học
+            </button>
+            <button class="subject-button" data-subject="hdtn-hn">
+                <i class="fas fa-hands-helping"></i>
+                Hoạt Động Trải Nghiệm - Hướng Nghiệp 
+            </button>
+            <button class="subject-button" data-subject="gdcd">
+                <i class="fas fa-balance-scale"></i>
+                Giáo Dục Công Dân 
+            </button>
+            <button class="subject-button" data-subject="giao-duc-dia-phuong">
+                <i class="fas fa-map"></i>
+                Giáo Dục Địa Phương
+            </button>
+            <button class="subject-button" data-subject="cong-nghe">
+    <i class="fas fa-robot"></i>
+    Công Nghệ
+</button>
+        </div>
+    </div>
+
+    <div id="chatbot-container">
+        <div id="sidebar">
+            <h3>Môn học</h3>
+            <button class="sidebar-button" data-subject="ngu-van">
+                <i class="fas fa-book-open"></i>
+                Ngữ Văn
+            </button>
+            <button class="sidebar-button" data-subject="toan">
+                <i class="fas fa-calculator"></i>
+                Toán
+            </button>
+            <button class="sidebar-button" data-subject="anh-van">
+                <i class="fas fa-globe"></i>
+                Anh Văn
+            </button>
+            <button class="sidebar-button" data-subject="khtn">
+                <i class="fas fa-flask"></i>
+                  Khoa Học Tự Nhiên
+            </button>
+            <button class="sidebar-button" data-subject="lich-su-dia-ly">
+                <i class="fas fa-map-marked-alt"></i>
+                Lịch Sử & Địa Lý
+            </button>
+            <button class="sidebar-button" data-subject="tin-hoc">
+                <i class="fas fa-laptop-code"></i>
+                Tin Học
+            </button>
+            <button class="sidebar-button" data-subject="hdtn-hn">
+                <i class="fas fa-hands-helping"></i>
+                HĐHN - TN
+            </button>
+            <button class="sidebar-button" data-subject="gdcd">
+                <i class="fas fa-balance-scale"></i>
+                Giáo Dục Công Dân 
+            </button>
+            <button class="sidebar-button" data-subject="giao-duc-dia-phuong">
+                <i class="fas fa-map"></i>
+                Giáo Dục Địa Phương
+            </button>
+            <button class="sidebar-button" data-subject="cong-nghe">
+    <i class="fas fa-robot"></i>
+    Công Nghệ
+</button>
+        </div>
+        <div class="chat-area">
+            <div id="khung-tro-chuyen">
+            </div>
+            <div id="khu-vuc-nhap">
+                <input type="text" id="o-nhap-tin-nhan" placeholder="Hỏi thầy/cô điều gì đó...">
+                <button id="nut-gui">
+                    <i class="fas fa-paper-plane"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script type="importmap">
+        {
+            "imports": {
+                "@google/generative-ai": "https://esm.run/@google/generative-ai"
+            }
+        }
+    </script>
+    <script type="module">
+        import { GoogleGenerativeAI } from "@google/generative-ai";
+
+        // Thay thế "YOUR_API_KEY" bằng khóa API thực tế của bạn
+        const KHOA_API = "AIzaSyAn9dMMM5u8dEGpI8mEzQvdMSuI8KFH8jM"; 
+        const moHinhAI = new GoogleGenerativeAI(KHOA_API);
+        const moHinh = moHinhAI.getGenerativeModel({ model: "gemini-2.0-flash-thinking-exp-01-21" });
+
+        const homeMenu = document.getElementById('home-menu');
+        const chatbotContainer = document.getElementById('chatbot-container');
+        const khungTroChuyen = document.getElementById('khung-tro-chuyen');
+        const oNhapTinNhan = document.getElementById('o-nhap-tin-nhan');
+        const nutGui = document.getElementById('nut-gui');
+        const subjectButtons = document.querySelectorAll('.subject-button');
+        const sidebarButtons = document.querySelectorAll('.sidebar-button');
+
+        let currentSubject = '';
+        let homeworkData = {}; // Đối tượng để lưu trữ dữ liệu bài tập từ baitap.txt
+
+        // Định nghĩa các môn học và bộ lọc
+        const subjectFilters = {
+    "ngu-van": {
+        name: "Ngữ Văn",
+        excludeKeywords: [
+            "văn", "tác giả", "tác phẩm", "thơ", "truyện", "ca dao", 
+            "tục ngữ", "câu", "từ", "đoạn", "nhân vật", "nội dung", 
+            "chủ đề", "nghệ thuật", "phân tích", "cảm nhận", "mở bài", "kết bài", "Văn", "Tác giả", "Tác phẩm", "Thơ", "Truyện", "Ca dao", "Tục ngữ", "Câu", "Từ", "Đoạn", "Nhân vật", "Nội dung", "Chủ đề", "Nghệ thuật", "Phân tích", "Cảm nhận", "Mở bài", "Kết bài"
+        ],
+        homeworkExamples: []
+    },
+    "toan": {
+        name: "Toán",
+        excludeKeywords: [
+            "số", "cộng", "trừ", "nhân", "chia", "mũ", "x", "toán", 
+            "định lí", "giải", "nghiệm", "phương trình", "biểu thức", 
+            "đồ thị", "diện tích", "chu vi", "hình vuông", "hình tròn", 
+            "hình tam giác", "tỉ lệ", "phân số", "Số", "Cộng", "Trừ", "Nhân", "Chia", "Mũ", "X", "Toán",
+"Định lí", "Giải", "Nghiệm", "Phương trình", "Biểu thức",
+"Đồ thị", "Diện tích", "Chu vi", "Hình vuông", "Hình tròn",
+"Hình tam giác", "Tỉ lệ", "Phân số" 
+        ],
+        homeworkExamples: []
+    },
+    "anh-van": {
+        name: "Anh Văn",
+        excludeKeywords: [
+            "anh", "từ vựng", "cấu trúc", "từ", "nghĩa", "dịch", "việt", 
+            "phát âm", "tiếng", "đọc hiểu", "câu điều kiện", "thì hiện tại", 
+            "thì quá khứ", "will", "can", "must", "should", "how", "what", 
+            "where", "when", "why", "who", "trắc nghiệm tiếng anh", "Anh", "Từ vựng", "Cấu trúc", "Từ", "Nghĩa", "Dịch", "Việt",
+"Phát âm", "Tiếng", "Đọc hiểu", "Câu điều kiện", "Thì hiện tại",
+"Thì", "Will", "Can", "Must", "Should", "How", "What",
+"Where", "When", "Why", "Who", "Trắc nghiệm tiếng anh" 
+        ],
+        homeworkExamples: []
+    },
+    "khtn": {
+        name: "Khoa Học Tự Nhiên",
+        excludeKeywords: [
+            "lý", "hóa", "sinh", "hiện tượng", "nhiệt độ", 
+            "lực", "ánh sáng", "âm thanh", "phản ứng", "chất", 
+            "hỗn hợp", "cơ thể", "thực vật", "động vật", "tế bào", 
+            "thí nghiệm", "nước", "khí", "điện", "nam châm", "Lý", "Hóa", "Sinh", "Hiện tượng", "Nhiệt độ", "Lực", "Ánh sáng", "Âm thanh", "Phản ứng", "Chất", "Hỗn hợp", "Cơ thể", "Thực vật", "Động vật", "Tế bào", "Thí nghiệm", "Nước", "Khí", "Điện", "Nam châm"
+        ],
+        homeworkExamples: [],
+        chemistryNaming: "english"
+    },
+    "lich-su-dia-ly": {
+        name: "Lịch Sử & Địa Lý",
+        excludeKeywords: [
+            "chiến tranh", "cách mạng", "vua", "triều đại", "bản đồ", 
+            "châu lục", "quốc gia", "sử", "địa", "dân cư", 
+            "địa hình", "khí hậu", "biển đảo", "nhân dân", "thời kỳ", 
+            "thành tựu", "lược đồ", "mốc thời gian", "Chiến tranh", "Cách mạng", "Vua", "Triều đại", "Bản đồ", "Châu lục", "Quốc gia", "Sử", "Địa", "Dân cư", "Địa hình", "Khí hậu", "Biển đảo", "Nhân dân", "Thời kỳ", "Thành tựu", "Lược đồ", "Mốc thời gian"
+        ],
+        homeworkExamples: []
+    },
+    "tin-hoc": {
+        name: "Tin Học",
+        excludeKeywords: [
+            "máy tính", "bàn phím", "chuột", "tệp", "thư mục", "hệ điều hành", 
+            "sao chép", "lưu tệp", "PowerPoint", "Word", "Excel", 
+            "lập trình", "thuật toán", "vẽ sơ đồ", "ngôn ngữ Scratch", "tin", "Máy tính", "Bàn phím", "Chuột", "Tệp", "Thư mục", "Hệ điều hành", "Sao chép", "Lưu tệp", "powerPoint", "word", "excel", "Lập trình", "Thuật toán", "Vẽ sơ đồ", "Ngôn ngữ", "Tin"
+        ],
+        homeworkExamples: []
+    },
+    "hdtn-hn": {
+        name: "Hoạt Động Trải Nghiệm - Hướng Nghiệp",
+        excludeKeywords: [
+            "trải nghiệm", "hoạt động nhóm", "kỹ năng sống", "lao động", 
+            "giúp đỡ", "giao tiếp", "thuyết trình", "định hướng", "nghề nghiệp", 
+            "tự đánh giá", "hoạt động ngoài giờ", "phối hợp", "Trải nghiệm", "Hoạt động nhóm", "Kỹ năng sống", "Lao động", "Giúp đỡ", "Giao tiếp", "Thuyết trình", "Định hướng", "Nghề nghiệp", "Tự đánh giá", "Hoạt động ngoài giờ", "Phối hợp"
+        ],
+        homeworkExamples: []
+    },
+    "gdcd": {
+        name: "Giáo Dục Công Dân",
+        excludeKeywords: [
+            "quyền", "nghĩa vụ", "pháp luật", "công dân", "trách nhiệm", 
+            "đạo đức", "kỉ luật", "tôn trọng", "yêu nước", "lễ phép", 
+            "trung thực", "đoàn kết", "bảo vệ môi trường", "phòng chống", "gdcd", "Quyền", "Nghĩa vụ", "Pháp luật", "Công dân", "Trách nhiệm", "Đạo đức", "Kỉ luật", "Tôn trọng", "Yêu nước", "Lễ phép", "Trung thực", "Đoàn kết", "Bảo vệ môi trường", "Phòng chống", "Gdcd"
+        ],
+        homeworkExamples: []
+    },
+    "giao-duc-dia-phuong": {
+        name: "Giáo Dục Địa Phương",
+        excludeKeywords: [
+            "địa phương", "tỉnh", "thành phố", "lịch sử địa phương", 
+            "văn hóa địa phương", "lễ hội", "truyền thống", "nhân vật tiêu biểu", 
+            "di tích", "đặc sản", "nét đẹp quê hương", "Địa phương", "Tỉnh", "Thành phố", "Lịch sử địa phương", "Văn hóa địa phương", "Lễ hội", "Truyền thống", "Nhân vật tiêu biểu", "Di tích", "Đặc sản", "Nét đẹp quê hương"
+        ],
+        homeworkExamples: []
+    },
+"cong-nghe": {
+    name: "Công Nghệ",
+    excludeKeywords: [
+        "dệt may", "trồng trọt", "chăn nuôi", "mạng điện", 
+        "sơ đồ", "dụng cụ", "vật liệu", "kỹ thuật", 
+        "máy móc", "công cụ", "kế hoạch", "an toàn", 
+        "giống cây", "thức ăn", "hệ thống", "vẽ kỹ", 
+        "công nghệ", "Dệt may", "Trồng trọt", "Chăn nuôi", 
+        "Mạng điện", "Sơ đồ", "Dụng cụ", "Vật liệu", 
+        "Kỹ thuật", "Máy móc", "Công cụ", "Kế hoạch", 
+        "An toàn", "Giống cây", "Thức ăn", "Hệ thống", 
+        "Vẽ kỹ", "Công nghệ"
+    ],
+    homeworkExamples: []
+}
+        };
+
+        const generalExcludeKeywords = [
+            "đại học", "cao học", "nghiên cứu", "phân tích chuyên sâu", "triết học",
+            "kinh tế vĩ mô", "chính trị quốc tế", "chứng minh nâng cao", "phản biện"
+        ];
+        // Các cụm từ người dùng có thể dùng để yêu cầu bài tập
+        const homeworkRequestPhrases = /(cho (tôi|em) bài tập|xin bài tập|gợi ý bài tập|bài tập về|cho bài tập|đưa bài tập|đưa (tôi|em) bài tập)/;
+
+        // Hàm để tải và phân tích dữ liệu bài tập từ baitap.txt
+        async function loadHomeworkData() {
+            try {
+                const response = await fetch('baitap.txt');
+                if (!response.ok) {
+                    throw new Error(`Lỗi HTTP! status: ${response.status}`);
+                }
+                const text = await response.text();
+                // Tách các dòng, loại bỏ khoảng trắng và dòng trống
+                const lines = text.split('\n').map(line => line.trim()).filter(line => line.length > 0);
+
+                let currentSection = '';
+                for (const line of lines) {
+                    if (line.startsWith('#')) {
+                        currentSection = line.substring(1); // Lấy khóa môn học
+                        homeworkData[currentSection] = []; // Khởi tạo mảng rỗng cho môn học này
+                    } else if (currentSection && homeworkData[currentSection]) {
+                        homeworkData[currentSection].push(line); // Thêm bài tập vào môn học hiện tại
+                    }
+                }
+                // Điền dữ liệu bài tập đã tải vào subjectFilters
+                for (const subjectKey in homeworkData) {
+                    if (subjectFilters[subjectKey]) {
+                        subjectFilters[subjectKey].homeworkExamples = homeworkData[subjectKey];
+                    }
+                }
+                console.log("Dữ liệu bài tập đã tải:", homeworkData);
+            } catch (error) {
+                console.error("Không thể tải dữ liệu bài tập:", error);
+                // Đặt lại homeworkExamples thành rỗng nếu có lỗi
+                for (const key in subjectFilters) {
+                    subjectFilters[key].homeworkExamples = [];
+                }
+            }
+        }
+
+        // Tải dữ liệu bài tập khi script bắt đầu
+        loadHomeworkData();
+
+        // Gán sự kiện cho các nút chọn môn học ở trang chủ
+        subjectButtons.forEach(button => {
+            button.addEventListener('click', () => selectSubject(button.dataset.subject));
+        });
+
+        // Gán sự kiện cho các nút chọn môn học ở thanh sidebar
+        sidebarButtons.forEach(button => {
+            button.addEventListener('click', () => selectSubject(button.dataset.subject));
+        });
+
+        // Gán sự kiện cho nút gửi tin nhắn
+        nutGui.addEventListener('click', guiTinNhan);
+        // Gán sự kiện cho phím Enter trong ô nhập tin nhắn
+        oNhapTinNhan.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                guiTinNhan();
+            }
+        });
+
+        /**
+         * Chuyển đổi giữa menu chọn môn học và giao diện chatbot.
+         * Đặt môn học hiện tại và hiển thị lời chào.
+         * @param {string} subject - Khóa của môn học được chọn.
+         */
+        function selectSubject(subject) {
+            currentSubject = subject;
+            homeMenu.style.display = 'none';
+            chatbotContainer.style.display = 'flex';
+            khungTroChuyen.innerHTML = ''; // Xóa tin nhắn cũ khi đổi môn
+            themTinNhanVaoGiaoDien("bot", `Chào em! Thầy/cô sẵn sàng hỗ trợ em học môn **${subjectFilters[subject].name}**. Em cần thầy/cô giải đáp gì hoặc muốn làm bài tập nào?`);
+
+            // Đặt trạng thái 'active' cho nút sidebar tương ứng
+            sidebarButtons.forEach(button => {
+                if (button.dataset.subject === subject) {
+                    button.classList.add('active');
+                } else {
+                    button.classList.remove('active');
+                }
+            });
+        }
+
+        /**
+         * Thêm tin nhắn vào giao diện trò chuyện.
+         * @param {string} nguoiGui - Người gửi tin nhắn ("nguoi-dung" hoặc "bot").
+         * @param {string} vanBan - Nội dung tin nhắn.
+         */
+        function themTinNhanVaoGiaoDien(nguoiGui, vanBan) {
+    const divTinNhan = document.createElement('div');
+    divTinNhan.classList.add('tin-nhan', `tin-nhan-${nguoiGui}`);
+
+    // LOẠI BỎ các ký hiệu công thức toán phức tạp
+    let cleanText = vanBan
+        .replace(/\$(.*?)\$/g, '$1') // Bỏ dấu $ bao quanh công thức
+        .replace(/\\\((.*?)\\\)/g, '$1') // Bỏ \(...\)
+        .replace(/\\\[(.*?)\\\]/g, '$1'); // Bỏ \[...\]
+
+    // Giữ lại các định dạng cơ bản
+    cleanText = cleanText
+        .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+        .replace(/\n/g, '<br>');
+
+    divTinNhan.innerHTML = cleanText;
+    khungTroChuyen.appendChild(divTinNhan);
+    khungTroChuyen.scrollTop = khungTroChuyen.scrollHeight;
+}
+async function guiTinNhan() {
+    const tinNhanNguoiDung = oNhapTinNhan.value.trim();
+    if (!tinNhanNguoiDung) return;
+
+    themTinNhanVaoGiaoDien("nguoi-dung", tinNhanNguoiDung);
+    oNhapTinNhan.value = '';
+
+    // Xử lý lời chào
+    const loiChao = ["chào", "hello"];
+    if (loiChao.some(chao => tinNhanNguoiDung.toLowerCase().includes(chao))) {
+        themTinNhanVaoGiaoDien("bot", `Chào em! Thầy/cô là chatbot hỗ trợ học tập cho học sinh THCS Nguyễn Tri Phương. Trong môn **${subjectFilters[currentSubject].name}**, em muốn hỏi gì hoặc cần bài tập nào để luyện tập?`);
+        return;
+    }
+
+    // Xử lý yêu cầu bài tập
+    const isAskingForHomework = homeworkRequestPhrases.test(tinNhanNguoiDung.toLowerCase());
+    if (isAskingForHomework) {
+        if (currentSubject && subjectFilters[currentSubject] && subjectFilters[currentSubject].homeworkExamples.length > 0) {
+            let examples = subjectFilters[currentSubject].homeworkExamples.map(e => `- ${e}`).join('\n');
+            themTinNhanVaoGiaoDien("bot", `Chào em! Thầy/cô có một vài bài tập môn **${subjectFilters[currentSubject].name}** cho em đây:\n${examples}\n\nEm hãy thử giải và hỏi thầy/cô nếu cần hướng dẫn thêm nhé!`);
+        } else {
+            themTinNhanVaoGiaoDien("bot", "Chào em! Hiện tại thầy/cô chưa có bài tập sẵn cho môn này. Em có muốn thầy/cô gợi ý một dạng bài tập hoặc giải đáp câu hỏi nào không?");
+        }
+        return;
+    }
+
+    try {
+        let loiNhac = `Bạn là một giáo viên AI thân thiện, hỗ trợ học sinh THCS trường Nguyễn Tri Phương (xưng hô là thầy/cô với học sinh là em). Bạn chuyên giải đáp câu hỏi và gợi ý cách làm bài tập cho học sinh THCS trong môn ${subjectFilters[currentSubject].name} theo chương trình giáo dục mới. Hãy trả lời ngắn gọn, dễ hiểu, phù hợp với trình độ THCS (lớp 6-9).`;
+        
+        // Thêm hướng dẫn đặc biệt cho môn Hóa học
+        if (currentSubject === "khtn") {
+            loiNhac += "\n\nLƯU Ý QUAN TRỌNG: Khi giải đáp về hóa học, luôn sử dụng tên tiếng Anh của các nguyên tố và hợp chất (ví dụ: Sodium bromide thay vì Natri bromua, Iron(III) oxide thay vì Sắt(III) oxit).";
+        }
+        if (currentSubject === "toan") {
+    loiNhac += "\n\nLƯU Ý QUAN TRỌNG: Khi trả lời câu hỏi toán học:";
+    loiNhac += "\n1. Dùng từ ngữ đơn giản, rõ ràng";
+    loiNhac += "\n2. Viết công thức chỉ sử dụng kí hiệu toán học thông thường, không sử dụng kí hiệu ngoài lề";
+    loiNhac += "\n3. Không dùng ký hiệu LaTeX hay dấu $";
+}
+        loiNhac += `\n\nCâu hỏi: ${tinNhanNguoiDung}`;
+
+        const ketQua = await moHinh.generateContent(loiNhac);
+        const phanHoi = await ketQua.response;
+        const traLoiBot = phanHoi.text();
+        themTinNhanVaoGiaoDien("bot", traLoiBot);
+
+    } catch (loi) {
+        console.error("Lỗi khi gọi API Gemini: ", loi);
+        themTinNhanVaoGiaoDien("bot", "Rất tiếc, có lỗi xảy ra. Em vui lòng thử lại sau nhé!");
+    }
+}
+if (currentSubject === "toan") {
+    loiNhac += `\n\nYÊU CẦU CHUYÊN SÂU TOÁN THCS:
+1. PHÂN TÍCH ĐỀ BÀI:
+- Liệt kê GIẢ THIẾT/KẾT LUẬN
+- Vẽ hình minh họa (mô tả bằng text)
+- Xác định dạng toán (hình học, đại số,...)
+
+2. GIẢI PHÁP:
+- Trình bày từng bước có KIỂM TRA LẠI
+- Dùng phương pháp phù hợp trình độ lớp 6-9
+- Đối chiếu với kiến thức SGK Việt Nam
+
+3. KIỂM TRA:
+- Tính hợp lý của từng bước
+- Thử lại với trường hợp đặc biệt
+- So sánh với kết quả ước lượng
+
+4. LƯU Ý:
+- Không dùng kiến thức nâng cao
+- Nếu không chắc chắn, nói rõ "Cần kiểm tra thêm"
+- Ưu tiên phương pháp sư phạm`;
+}
+function kiemTraToan(noiDung) {
+    const canhBao = [
+        "kết quả chưa chính xác",
+        "cần kiểm tra lại",
+        "phương pháp này có thể sai",
+        "vượt quá chương trình THCS"
+    ];
+    
+    return canhBao.some(tu => noiDung.includes(tu));
+}
+
+// Trong hàm guiTinNhan
+themTinNhanVaoGiaoDien("bot", traLoiBot);
+if (currentSubject === "toan" && kiemTraToan(traLoiBot)) {
+    themTinNhanVaoGiaoDien("bot", 
+        "⚠️ Em lưu ý: Kết quả này cần được kiểm tra lại kỹ. " +
+        "Nên tham khảo ý kiến thầy cô trực tiếp để xác minh.");
+}
+        /**
+         * Kiểm tra xem câu hỏi có phù hợp với cấp độ THCS hay không.
+         * @param {string} cauHoi - Câu hỏi của người dùng.
+         * @returns {boolean} - True nếu phù hợp, False nếu không.
+         */
+        function laCauHoiTHCS(cauHoi) {
+            const cauHoiThuong = cauHoi.toLowerCase();
+
+            // Kiểm tra các từ khóa loại trừ chung
+            const laKhongTHCSChung = generalExcludeKeywords.some(tuKhoa => cauHoiThuong.includes(tuKhoa));
+            if (laKhongTHCSChung) return false;
+
+            // Kiểm tra các từ khóa loại trừ theo môn học cụ thể
+            if (currentSubject && subjectFilters[currentSubject]) {
+                const subjectSpecificKeywords = subjectFilters[currentSubject].excludeKeywords;
+                const laKhongTHCSMonHoc = subjectSpecificKeywords.some(tuKhoa => cauHoiThuong.includes(tuKhoa));
+                if (laKhongTHCSMonHoc) return false;
+            }
+
+            return true;
+        }
+
+        // Hàm này không còn quyết định hành vi chính mà chỉ hỗ trợ regex cho homeworkRequestPhrases
+        function laYeuCauGiaiBaiTap(cauHoi) {
+            const cauHoiThuong = cauHoi.toLowerCase();
+            return homeworkRequestPhrases.test(cauHoiThuong);
+        }
+    </script>
+</body>
+</html>

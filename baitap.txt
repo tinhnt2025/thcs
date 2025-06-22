@@ -1,0 +1,62 @@
+#toan
+Bài 1: Giải phương trình: 3x - 7 = 14.
+Bài 2: Một hình chữ nhật có chiều dài 12cm và chiều rộng 4cm. Tính chu vi và diện tích của hình chữ nhật đó.
+Bài 3: Tính giá trị biểu thức: (25 × 4 - 50) ÷ 2.
+Bài 4: Minh có 15 quả bóng, Nam có gấp đôi số bóng của Minh. Hỏi Nam có bao nhiêu quả bóng?
+Bài 5: Tìm số liền trước và liền sau của 245.
+
+#ngu-van
+Bài 1: Gạch chân các tính từ trong câu: "Bầu trời trong xanh và gió thổi mát lành."
+Bài 2: Đặt 3 câu sử dụng từ "hạnh phúc" theo các nghĩa khác nhau.
+Bài 3: Tìm 3 từ đồng nghĩa với từ "vui vẻ".
+Bài 4: Viết một đoạn văn ngắn (5-7 câu) tả cảnh buổi sáng ở quê em.
+Bài 5: Phân tích ý nghĩa của câu ca dao: "Công cha như núi Thái Sơn."
+
+#anh-van
+Bài 1: Viết câu trả lời cho câu hỏi: "What is your favorite color?"
+Bài 2: Điền từ còn thiếu: "She ___ (go) to school every day."
+Bài 3: Sắp xếp từ thành câu hoàn chỉnh: "is / my / this / book / favorite."
+Bài 4: Dịch sang tiếng Anh: "Tôi thích nghe nhạc vào buổi tối."
+Bài 5: Viết 3 câu sử dụng thì hiện tại đơn để nói về thói quen hàng ngày.
+
+#khtn
+Bài 1: Kể tên 3 loại năng lượng mà em biết.
+Bài 2: Nêu sự khác nhau giữa chất rắn, chất lỏng và chất khí.
+Bài 3: Tại sao lá cây có màu xanh?
+Bài 4: Mô tả một thí nghiệm đơn giản để kiểm tra xem một chất có phải là axit hay không.
+Bài 5: Giải thích tại sao chúng ta cần bảo vệ nguồn nước sạch.
+
+#lich-su-dia-ly
+Bài 1: Kể tên 3 di tích lịch sử nổi tiếng ở Việt Nam.
+Bài 2: Việt Nam nằm ở khu vực nào của châu Á?
+Bài 3: Nêu tên một vị anh hùng dân tộc trong lịch sử Việt Nam.
+Bài 4: Mô tả đặc điểm khí hậu của miền Bắc Việt Nam.
+Bài 5: Kể tên 3 tỉnh thuộc khu vực Đồng bằng sông Cửu Long.
+
+#tin-hoc
+Bài 1: Kể tên 3 phần mềm soạn thảo văn bản mà em biết.
+Bài 2: Nêu chức năng của phím "Ctrl + S" trên bàn phím.
+Bài 3: Làm thế nào để tạo một thư mục mới trên máy tính?
+Bài 4: Kể tên 2 ngôn ngữ lập trình phổ biến.
+Bài 5: Mô tả biểu tượng của phần mềm Microsoft Word.
+
+#hdtn-hn
+Bài 1: Kể tên 3 kỹ năng sống quan trọng mà em đã học.
+Bài 2: Viết một đoạn văn ngắn (3-5 câu) về một hoạt động nhóm mà em tham gia.
+Bài 3: Tại sao cần lắng nghe ý kiến của người khác trong làm việc nhóm?
+Bài 4: Mô tả một nghề nghiệp mà em yêu thích và lý do chọn nghề đó.
+Bài 5: Lập kế hoạch cho một buổi sinh hoạt lớp với chủ đề "Bảo vệ môi trường".
+
+#gdcd
+Bài 1: Thế nào là trung thực? Cho một ví dụ về hành vi trung thực.
+Bài 2: Tại sao học sinh cần tôn trọng thầy cô giáo?
+Bài 3: Kể tên 3 quyền cơ bản của học sinh theo pháp luật Việt Nam.
+Bài 4: Viết 3 câu nêu lợi ích của việc giữ gìn vệ sinh công cộng.
+Bài 5: Giải thích tại sao cần bảo vệ tài sản công cộng.
+
+#giao-duc-dia-phuong
+Bài 1: Kể tên một lễ hội truyền thống ở địa phương của em.
+Bài 2: Mô tả một đặc sản nổi tiếng của quê hương em.
+Bài 3: Nêu tên một di tích lịch sử hoặc danh lam thắng cảnh ở địa phương em.
+Bài 4: Viết 3-5 câu về nét đẹp văn hóa của địa phương em.
+Bài 5: Tại sao cần giữ gìn và phát huy truyền thống văn hóa địa phương?
