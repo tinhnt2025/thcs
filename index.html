@@ -13,12 +13,64 @@
             margin: 0;
             display: flex;
             flex-direction: column;
-            height: 100vh;
+            min-height: 100vh;
             background-color: #e0f7fa;
             color: #333;
-            overflow: hidden;
+            overflow: auto;
         }
 
+        /* Thêm style cho header chứa logo */
+        .header {
+            display: flex;
+            align-items: center;
+            padding: 10px 20px;
+            background-color: #ffffff;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+        }
+
+        .logo {
+            height: 50px;
+            margin-right: 15px;
+        }
+
+        .school-name {
+            font-size: 1.2em;
+            font-weight: 600;
+            color: #26a69a;
+        }
+
+        /* Thêm style cho footer */
+        .footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 20px;
+            background-color: #ffffff;
+            border-top: 1px solid #e0e0e0;
+            box-shadow: 0 -2px 5px rgba(0,0,0,0.1);
+            font-size: 0.9em;
+        }
+
+        .footer-logo {
+            height: 40px;
+        }
+
+        .footer-content {
+    flex-grow: 1;
+    text-align: center;
+    font-weight: bold; /* Thêm dòng này */
+}
+
+/* Thêm style cho logo lớn ở trang chủ */
+.homepage-main-logo {
+    height: 200px; /* hoặc kích thước bạn muốn */
+    margin-bottom: 20px;
+}
         #home-menu {
             display: flex;
             flex-direction: column;
@@ -224,6 +276,25 @@
         }
 
         @media (max-width: 768px) {
+            .header {
+                flex-direction: column;
+                padding: 10px;
+            }
+            
+            .logo-container {
+                margin-bottom: 10px;
+            }
+            
+            .footer {
+                flex-direction: column;
+                text-align: center;
+                padding: 10px;
+            }
+            
+            .footer-logo {
+                margin-bottom: 10px;
+            }
+            
             #home-menu {
                 margin: 10px;
                 padding: 15px;
@@ -316,21 +387,38 @@
                 font-size: 20px;
                 margin-left: 10px;
             }
+            .fa-shapes {
+    font-family: 'Font Awesome 5 Free';
+}
         }
     </style>
 </head>
 <body>
+    <div class="header">
+        <div class="logo-container">
+            <img src="https://images.squarespace-cdn.com/content/v1/590b1f48e6f2e17836ea5649/bc0bccc3-bb7d-4dd8-ad86-6061f990a3b2/20240918-01.png?format=2500w" alt="Logo trường THCS Nguyễn Tri Phương" class="logo">
+            <div class="school-name">THCS Nguyễn Tri Phương</div>
+        </div>
+    </div>
+
     <div id="home-menu">
+       <img src="https://images.squarespace-cdn.com/content/v1/590b1f48e6f2e17836ea5649/bc0bccc3-bb7d-4dd8-ad86-6061f990a3b2/20240918-01.png?format=2500w" 
+         alt="Logo trường THCS Nguyễn Tri Phương" 
+         class="homepage-main-logo">
         <h1>Chatbot học tập trường THCS Nguyễn Tri Phương</h1>
         <div class="subject-buttons">
             <button class="subject-button" data-subject="ngu-van">
                 <i class="fas fa-book-open"></i>
                 Ngữ Văn
             </button>
-            <button class="subject-button" data-subject="toan">
-                <i class="fas fa-calculator"></i>
-                Toán
-            </button>
+            <button class="subject-button" data-subject="toan-dai">
+        <i class="fas fa-calculator"></i>
+        Toán Đại Số 
+    </button>
+    <button class="subject-button" data-subject="toan-hinh">
+        <i class="fas fa-shapes"></i>
+        Toán Hình Học
+    </button>
             <button class="subject-button" data-subject="anh-van">
                 <i class="fas fa-globe"></i>
                 Anh Văn
@@ -373,10 +461,14 @@
                 <i class="fas fa-book-open"></i>
                 Ngữ Văn
             </button>
-            <button class="sidebar-button" data-subject="toan">
-                <i class="fas fa-calculator"></i>
-                Toán
-            </button>
+             <button class="sidebar-button" data-subject="toan-dai">
+        <i class="fas fa-calculator"></i>
+        Toán Đại Số
+    </button>
+    <button class="sidebar-button" data-subject="toan-hinh">
+        <i class="fas fa-shapes"></i>
+        Toán Hình Học
+    </button>
             <button class="sidebar-button" data-subject="anh-van">
                 <i class="fas fa-globe"></i>
                 Anh Văn
@@ -421,6 +513,13 @@
             </div>
         </div>
     </div>
+    
+    <div class="footer">
+        <div class="footer-content">
+            @Copyright thuvienhoctap - Design by Nguyen Thanh Tinh
+        </div>
+        <div></div>
+    </div>
 
     <script type="importmap">
         {
@@ -445,9 +544,10 @@
         const subjectButtons = document.querySelectorAll('.subject-button');
         const sidebarButtons = document.querySelectorAll('.sidebar-button');
 
-        let currentSubject = '';
-        let homeworkData = {}; // Đối tượng để lưu trữ dữ liệu bài tập từ baitap.txt
-
+let currentSubject = '';
+        let homeworkData = {};
+        let currentQuestion = null;
+        let currentAnswer = null;
         // Định nghĩa các môn học và bộ lọc
         const subjectFilters = {
     "ngu-van": {
@@ -459,16 +559,30 @@
         ],
         homeworkExamples: []
     },
-    "toan": {
-        name: "Toán",
+    "toan-dai": {
+        name: "Toán Đại Số",
         excludeKeywords: [
-            "số", "cộng", "trừ", "nhân", "chia", "mũ", "x", "toán", 
-            "định lí", "giải", "nghiệm", "phương trình", "biểu thức", 
-            "đồ thị", "diện tích", "chu vi", "hình vuông", "hình tròn", 
-            "hình tam giác", "tỉ lệ", "phân số", "Số", "Cộng", "Trừ", "Nhân", "Chia", "Mũ", "X", "Toán",
-"Định lí", "Giải", "Nghiệm", "Phương trình", "Biểu thức",
-"Đồ thị", "Diện tích", "Chu vi", "Hình vuông", "Hình tròn",
-"Hình tam giác", "Tỉ lệ", "Phân số" 
+            "hình", "góc", "đường tròn", "tam giác", "tứ giác", 
+            "đường thẳng", "đường cong", "đường kính", "bán kính",
+            "chu vi", "diện tích", "thể tích", "hình không gian",
+            "hình học", "hình chiếu", "đồng dạng", "Hình", "Góc", 
+            "Đường tròn", "Tam giác", "Tứ giác", "Đường thẳng", 
+            "Đường cong", "Đường kính", "Bán kính", "Chu vi", 
+            "Diện tích", "Thể tích", "Hình không gian", "Hình học", 
+            "Hình chiếu", "Đồng dạng"
+        ],
+        homeworkExamples: []
+    },
+    "toan-hinh": {
+        name: "Toán Hình Học",
+        excludeKeywords: [
+            "phương trình", "biểu thức", "đa thức", "hàm số", 
+            "đồ thị", "bất phương trình", "tỉ lệ", "phân số", 
+            "số thập phân", "số nguyên", "căn bậc", "logarit", 
+            "lũy thừa", "đại số", "Phương trình", "Biểu thức", 
+            "Đa thức", "Hàm số", "Đồ thị", "Bất phương trình", 
+            "Tỉ lệ", "Phân số", "Số thập phân", "Số nguyên", 
+            "Căn bậc", "Logarit", "Lũy thừa", "Đại số"
         ],
         homeworkExamples: []
     },
@@ -567,181 +681,215 @@
         const homeworkRequestPhrases = /(cho (tôi|em) bài tập|xin bài tập|gợi ý bài tập|bài tập về|cho bài tập|đưa bài tập|đưa (tôi|em) bài tập)/;
 
         // Hàm để tải và phân tích dữ liệu bài tập từ baitap.txt
-        async function loadHomeworkData() {
-            try {
-                const response = await fetch('baitap.txt');
-                if (!response.ok) {
-                    throw new Error(`Lỗi HTTP! status: ${response.status}`);
-                }
-                const text = await response.text();
-                // Tách các dòng, loại bỏ khoảng trắng và dòng trống
-                const lines = text.split('\n').map(line => line.trim()).filter(line => line.length > 0);
+        // Thêm biến toàn cục để lưu câu hỏi và đáp án hiện tại
 
-                let currentSection = '';
-                for (const line of lines) {
-                    if (line.startsWith('#')) {
-                        currentSection = line.substring(1); // Lấy khóa môn học
-                        homeworkData[currentSection] = []; // Khởi tạo mảng rỗng cho môn học này
-                    } else if (currentSection && homeworkData[currentSection]) {
-                        homeworkData[currentSection].push(line); // Thêm bài tập vào môn học hiện tại
-                    }
-                }
-                // Điền dữ liệu bài tập đã tải vào subjectFilters
-                for (const subjectKey in homeworkData) {
-                    if (subjectFilters[subjectKey]) {
-                        subjectFilters[subjectKey].homeworkExamples = homeworkData[subjectKey];
-                    }
-                }
-                console.log("Dữ liệu bài tập đã tải:", homeworkData);
-            } catch (error) {
-                console.error("Không thể tải dữ liệu bài tập:", error);
-                // Đặt lại homeworkExamples thành rỗng nếu có lỗi
-                for (const key in subjectFilters) {
-                    subjectFilters[key].homeworkExamples = [];
-                }
-            }
-        }
-
-        // Tải dữ liệu bài tập khi script bắt đầu
-        loadHomeworkData();
-
-        // Gán sự kiện cho các nút chọn môn học ở trang chủ
-        subjectButtons.forEach(button => {
-            button.addEventListener('click', () => selectSubject(button.dataset.subject));
-        });
-
-        // Gán sự kiện cho các nút chọn môn học ở thanh sidebar
-        sidebarButtons.forEach(button => {
-            button.addEventListener('click', () => selectSubject(button.dataset.subject));
-        });
-
-        // Gán sự kiện cho nút gửi tin nhắn
-        nutGui.addEventListener('click', guiTinNhan);
-        // Gán sự kiện cho phím Enter trong ô nhập tin nhắn
-        oNhapTinNhan.addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') {
-                guiTinNhan();
-            }
-        });
-
-        /**
-         * Chuyển đổi giữa menu chọn môn học và giao diện chatbot.
-         * Đặt môn học hiện tại và hiển thị lời chào.
-         * @param {string} subject - Khóa của môn học được chọn.
-         */
-        function selectSubject(subject) {
-            currentSubject = subject;
-            homeMenu.style.display = 'none';
-            chatbotContainer.style.display = 'flex';
-            khungTroChuyen.innerHTML = ''; // Xóa tin nhắn cũ khi đổi môn
-            themTinNhanVaoGiaoDien("bot", `Chào em! Thầy/cô sẵn sàng hỗ trợ em học môn **${subjectFilters[subject].name}**. Em cần thầy/cô giải đáp gì hoặc muốn làm bài tập nào?`);
-
-            // Đặt trạng thái 'active' cho nút sidebar tương ứng
-            sidebarButtons.forEach(button => {
-                if (button.dataset.subject === subject) {
-                    button.classList.add('active');
-                } else {
-                    button.classList.remove('active');
-                }
-            });
-        }
-
-        /**
-         * Thêm tin nhắn vào giao diện trò chuyện.
-         * @param {string} nguoiGui - Người gửi tin nhắn ("nguoi-dung" hoặc "bot").
-         * @param {string} vanBan - Nội dung tin nhắn.
-         */
-        function themTinNhanVaoGiaoDien(nguoiGui, vanBan) {
+function themTinNhanVaoGiaoDien(nguoiGui, vanBan) {
     const divTinNhan = document.createElement('div');
     divTinNhan.classList.add('tin-nhan', `tin-nhan-${nguoiGui}`);
-
-    // LOẠI BỎ các ký hiệu công thức toán phức tạp
-    let cleanText = vanBan
-        .replace(/\$(.*?)\$/g, '$1') // Bỏ dấu $ bao quanh công thức
-        .replace(/\\\((.*?)\\\)/g, '$1') // Bỏ \(...\)
-        .replace(/\\\[(.*?)\\\]/g, '$1'); // Bỏ \[...\]
-
-    // Giữ lại các định dạng cơ bản
-    cleanText = cleanText
-        .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
-        .replace(/\n/g, '<br>');
-
-    divTinNhan.innerHTML = cleanText;
+    divTinNhan.innerHTML = vanBan.replace(/\n/g, '<br>');
     khungTroChuyen.appendChild(divTinNhan);
     khungTroChuyen.scrollTop = khungTroChuyen.scrollHeight;
 }
-async function guiTinNhan() {
-    const tinNhanNguoiDung = oNhapTinNhan.value.trim();
-    if (!tinNhanNguoiDung) return;
 
-    themTinNhanVaoGiaoDien("nguoi-dung", tinNhanNguoiDung);
-    oNhapTinNhan.value = '';
-
-    // Xử lý lời chào
-    const loiChao = ["chào", "hello"];
-    if (loiChao.some(chao => tinNhanNguoiDung.toLowerCase().includes(chao))) {
-        themTinNhanVaoGiaoDien("bot", `Chào em! Thầy/cô là chatbot hỗ trợ học tập cho học sinh THCS Nguyễn Tri Phương. Trong môn **${subjectFilters[currentSubject].name}**, em muốn hỏi gì hoặc cần bài tập nào để luyện tập?`);
-        return;
-    }
-
-    // Xử lý yêu cầu bài tập
-    const isAskingForHomework = homeworkRequestPhrases.test(tinNhanNguoiDung.toLowerCase());
-    if (isAskingForHomework) {
-        if (currentSubject && subjectFilters[currentSubject] && subjectFilters[currentSubject].homeworkExamples.length > 0) {
-            let examples = subjectFilters[currentSubject].homeworkExamples.map(e => `- ${e}`).join('\n');
-            themTinNhanVaoGiaoDien("bot", `Chào em! Thầy/cô có một vài bài tập môn **${subjectFilters[currentSubject].name}** cho em đây:\n${examples}\n\nEm hãy thử giải và hỏi thầy/cô nếu cần hướng dẫn thêm nhé!`);
-        } else {
-            themTinNhanVaoGiaoDien("bot", "Chào em! Hiện tại thầy/cô chưa có bài tập sẵn cho môn này. Em có muốn thầy/cô gợi ý một dạng bài tập hoặc giải đáp câu hỏi nào không?");
-        }
-        return;
-    }
-
+async function loadHomeworkData() {
     try {
-        let loiNhac = `Bạn là một giáo viên AI thân thiện, hỗ trợ học sinh THCS trường Nguyễn Tri Phương (xưng hô là thầy/cô với học sinh là em). Bạn chuyên giải đáp câu hỏi và gợi ý cách làm bài tập cho học sinh THCS trong môn ${subjectFilters[currentSubject].name} theo chương trình giáo dục mới. Hãy trả lời ngắn gọn, dễ hiểu, phù hợp với trình độ THCS (lớp 6-9).`;
+        console.log("Đang tải dữ liệu bài tập...");
+        const response = await fetch('baitap.txt');
+        if (!response.ok) throw new Error(`Lỗi HTTP! status: ${response.status}`);
         
-        // Thêm hướng dẫn đặc biệt cho môn Hóa học
-        if (currentSubject === "khtn") {
-            loiNhac += "\n\nLƯU Ý QUAN TRỌNG: Khi giải đáp về hóa học, luôn sử dụng tên tiếng Anh của các nguyên tố và hợp chất (ví dụ: Sodium bromide thay vì Natri bromua, Iron(III) oxide thay vì Sắt(III) oxit).";
+        const text = await response.text();
+        console.log("Nội dung file:", text); // Kiểm tra nội dung file
+        
+        const lines = text.split('\n')
+            .map(line => line.trim())
+            .filter(line => line.length > 0 && !line.startsWith('//'));
+
+        let currentSection = '';
+        homeworkData = {};
+        
+        for (const line of lines) {
+            if (line.startsWith('#')) {
+                currentSection = line.substring(1).trim();
+                homeworkData[currentSection] = [];
+            } else if (currentSection && line.includes('|')) {
+                const parts = line.split('|').map(part => part.trim());
+                if (parts.length === 2) {
+                    homeworkData[currentSection].push({
+                        question: parts[0].replace('Câu hỏi:', '').trim(),
+                        answer: parts[1].replace('Đáp án:', '').trim()
+                    });
+                }
+            }
         }
-        if (currentSubject === "toan") {
+
+        // Cập nhật vào subjectFilters
+        for (const subjectKey in homeworkData) {
+            if (subjectFilters[subjectKey]) {
+                subjectFilters[subjectKey].homeworkExamples = homeworkData[subjectKey];
+                console.log(`Đã tải ${homeworkData[subjectKey].length} bài tập cho môn ${subjectKey}`);
+            }
+        }
+    } catch (error) {
+        console.error("Lỗi khi tải dữ liệu bài tập:", error);
+        // Khởi tạo homeworkExamples rỗng nếu có lỗi
+        for (const key in subjectFilters) {
+            subjectFilters[key].homeworkExamples = [];
+        }
+    }
+}
+
+
+        // Hàm lấy câu hỏi ngẫu nhiên
+        function getRandomQuestion(subject) {
+            if (!subjectFilters[subject] || !subjectFilters[subject].homeworkExamples || 
+                subjectFilters[subject].homeworkExamples.length === 0) {
+                return null;
+            }
+            const questions = subjectFilters[subject].homeworkExamples;
+            const randomIndex = Math.floor(Math.random() * questions.length);
+            return questions[randomIndex];
+        }
+function selectSubject(subject) {
+    currentSubject = subject;
+    homeMenu.style.display = 'none';
+    chatbotContainer.style.display = 'flex';
+    khungTroChuyen.innerHTML = '';
+    
+    // Reset câu hỏi hiện tại
+    currentQuestion = null;
+    currentAnswer = null;
+    
+    themTinNhanVaoGiaoDien("bot", 
+        `Chào em! Thầy/cô sẵn sàng hỗ trợ em học môn <strong>${subjectFilters[subject].name}</strong>. ` +
+        `Em có thể hỏi bài hoặc nhắn "cho em bài tập" để nhận câu hỏi nhé!`);
+
+    // Cập nhật active state cho sidebar
+    sidebarButtons.forEach(button => {
+        button.classList.toggle('active', button.dataset.subject === subject);
+    });
+}
+
+// Gắn sự kiện khi trang tải xong
+document.addEventListener('DOMContentLoaded', () => {
+    // Gắn sự kiện cho các nút môn học
+    subjectButtons.forEach(button => {
+        button.addEventListener('click', () => selectSubject(button.dataset.subject));
+    });
+    
+    sidebarButtons.forEach(button => {
+        button.addEventListener('click', () => selectSubject(button.dataset.subject));
+    });
+    
+    // Gắn sự kiện gửi tin nhắn
+    nutGui.addEventListener('click', guiTinNhan);
+    oNhapTinNhan.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') guiTinNhan();
+    });
+    
+    // Tải dữ liệu bài tập khi khởi động
+    loadHomeworkData();
+});
+        // Cập nhật hàm guiTinNhan
+        async function guiTinNhan() {
+            const tinNhanNguoiDung = oNhapTinNhan.value.trim();
+            if (!tinNhanNguoiDung) return;
+
+            themTinNhanVaoGiaoDien("nguoi-dung", tinNhanNguoiDung);
+            oNhapTinNhan.value = '';
+
+            // Xử lý lời chào
+            if (["chào"].some(word => tinNhanNguoiDung.toLowerCase().includes(word))) {
+                themTinNhanVaoGiaoDien("bot", `Chào em! Thầy/cô sẵn sàng hỗ trợ em học môn **${subjectFilters[currentSubject].name}**. Em cần thầy/cô giải đáp gì hoặc muốn làm bài tập nào?`);
+                return;
+            }
+
+            // Xử lý yêu cầu đáp án
+            if (tinNhanNguoiDung.toLowerCase().includes('đáp án')) {
+                if (currentAnswer) {
+                    themTinNhanVaoGiaoDien("bot", `Đáp án: ${currentAnswer}`);
+                } else {
+                    themTinNhanVaoGiaoDien("bot", "Hiện không có câu hỏi nào được chọn. Em hãy yêu cầu một bài tập trước nhé!");
+                }
+                return;
+            }
+
+            // Xử lý yêu cầu bài tập
+            const isAskingForHomework = /(cho (tôi|em) bài tập|xin bài tập|gợi ý bài tập|bài tập)/i.test(tinNhanNguoiDung);
+            if (isAskingForHomework) {
+                if (currentSubject && subjectFilters[currentSubject] && 
+                    subjectFilters[currentSubject].homeworkExamples && 
+                    subjectFilters[currentSubject].homeworkExamples.length > 0) {
+                    
+                    const randomQuestion = getRandomQuestion(currentSubject);
+                    if (randomQuestion) {
+                        currentQuestion = randomQuestion.question;
+                        currentAnswer = randomQuestion.answer;
+                        themTinNhanVaoGiaoDien("bot", 
+                            `Thầy/cô có bài tập môn **${subjectFilters[currentSubject].name}** cho em:\n\n` +
+                            `📝 ${currentQuestion}\n\n` +
+                            `Em hãy thử giải và nhắn "đáp án" nếu muốn xem đáp án nhé!`);
+                    } else {
+                        themTinNhanVaoGiaoDien("bot", "Hiện không có bài tập nào trong danh sách. Vui lòng thử lại sau!");
+                    }
+                } else {
+                    themTinNhanVaoGiaoDien("bot", "Chào em! Hiện tại thầy/cô chưa có bài tập sẵn cho môn này. Em có muốn thầy/cô gợi ý một dạng bài tập hoặc giải đáp câu hỏi nào không?");
+                }
+                return;
+            }
+
+            // Xử lý các câu hỏi thông thường
+            try {
+                let loiNhac = `Bạn là một giáo viên AI thân thiện, hỗ trợ học sinh THCS trường Nguyễn Tri Phương (xưng hô là thầy/cô với học sinh là em). Bạn chuyên giải đáp câu hỏi và gợi ý cách làm bài tập cho học sinh THCS trong môn ${subjectFilters[currentSubject].name} theo chương trình giáo dục mới. Hãy trả lời ngắn gọn, dễ hiểu, phù hợp với trình độ THCS (lớp 6-9).`;
+                
+                // Thêm các hướng dẫn đặc biệt cho từng môn học
+                if (currentSubject === "khtn") {
+                    loiNhac += "\n\nLƯU Ý QUAN TRỌNG: Khi giải đáp về hóa học, luôn sử dụng tên tiếng Anh của các nguyên tố và hợp chất.";
+                }
+                
+                if (currentSubject === "toan-dai" || currentSubject === "toan-hinh") {
+                    loiNhac += "\n\nLƯU Ý QUAN TRỌNG: Khi trả lời câu hỏi toán học:";
+                    loiNhac += "\n1. Dùng từ ngữ đơn giản, rõ ràng";
+                    loiNhac += "\n2. Viết công thức chỉ sử dụng kí hiệu toán học thông thường";
+                    
+                    if (currentSubject === "toan-hinh") {
+                        loiNhac += "\n3. LUÔN mô tả hình vẽ bằng text nếu cần";
+                    }
+                }
+                
+                loiNhac += `\n\nCâu hỏi: ${tinNhanNguoiDung}`;
+
+                const ketQua = await moHinh.generateContent(loiNhac);
+                const phanHoi = await ketQua.response;
+                const traLoiBot = phanHoi.text();
+                themTinNhanVaoGiaoDien("bot", traLoiBot);
+
+                // Kiểm tra cảnh báo cho môn toán
+                if ((currentSubject === "toan-dai" || currentSubject === "toan-hinh") && kiemTraToan(traLoiBot)) {
+                    themTinNhanVaoGiaoDien("bot", 
+                        "⚠️ Em lưu ý: Kết quả này cần được kiểm tra lại kỹ. " +
+                        "Nên tham khảo ý kiến thầy cô trực tiếp để xác minh.");
+                }
+
+            } catch (loi) {
+                console.error("Lỗi khi gọi API Gemini: ", loi);
+                themTinNhanVaoGiaoDien("bot", "Rất tiếc, có lỗi xảy ra. Em vui lòng thử lại sau nhé!");
+            }
+        }
+if (currentSubject === "toan-dai" || currentSubject === "toan-hinh") {
     loiNhac += "\n\nLƯU Ý QUAN TRỌNG: Khi trả lời câu hỏi toán học:";
     loiNhac += "\n1. Dùng từ ngữ đơn giản, rõ ràng";
-    loiNhac += "\n2. Viết công thức chỉ sử dụng kí hiệu toán học thông thường, không sử dụng kí hiệu ngoài lề";
+    loiNhac += "\n2. Viết công thức chỉ sử dụng kí hiệu toán học thông thường";
     loiNhac += "\n3. Không dùng ký hiệu LaTeX hay dấu $";
-}
-        loiNhac += `\n\nCâu hỏi: ${tinNhanNguoiDung}`;
-
-        const ketQua = await moHinh.generateContent(loiNhac);
-        const phanHoi = await ketQua.response;
-        const traLoiBot = phanHoi.text();
-        themTinNhanVaoGiaoDien("bot", traLoiBot);
-
-    } catch (loi) {
-        console.error("Lỗi khi gọi API Gemini: ", loi);
-        themTinNhanVaoGiaoDien("bot", "Rất tiếc, có lỗi xảy ra. Em vui lòng thử lại sau nhé!");
+    
+    if (currentSubject === "toan-hinh") {
+        loiNhac += "\n4. LUÔN mô tả hình vẽ bằng text nếu cần";
+        loiNhac += "\n5. Ghi rõ giả thiết và kết luận của bài toán hình";
     }
-}
-if (currentSubject === "toan") {
-    loiNhac += `\n\nYÊU CẦU CHUYÊN SÂU TOÁN THCS:
-1. PHÂN TÍCH ĐỀ BÀI:
-- Liệt kê GIẢ THIẾT/KẾT LUẬN
-- Vẽ hình minh họa (mô tả bằng text)
-- Xác định dạng toán (hình học, đại số,...)
-
-2. GIẢI PHÁP:
-- Trình bày từng bước có KIỂM TRA LẠI
-- Dùng phương pháp phù hợp trình độ lớp 6-9
-- Đối chiếu với kiến thức SGK Việt Nam
-
-3. KIỂM TRA:
-- Tính hợp lý của từng bước
-- Thử lại với trường hợp đặc biệt
-- So sánh với kết quả ước lượng
-
-4. LƯU Ý:
-- Không dùng kiến thức nâng cao
-- Nếu không chắc chắn, nói rõ "Cần kiểm tra thêm"
-- Ưu tiên phương pháp sư phạm`;
+    
+    if (currentSubject === "toan-dai") {
+        loiNhac += "\n4. Trình bày từng bước biến đổi rõ ràng";
+        loiNhac += "\n5. Kiểm tra điều kiện xác định (nếu có)";
+    }
 }
 function kiemTraToan(noiDung) {
     const canhBao = [
@@ -751,9 +899,20 @@ function kiemTraToan(noiDung) {
         "vượt quá chương trình THCS"
     ];
     
+    // Thêm cảnh báo đặc biệt cho hình học
+    if (currentSubject === "toan-hinh") {
+        canhBao.push("hình vẽ có thể không chính xác");
+        canhBao.push("cần kiểm tra lại giả thiết");
+    }
+    
+    // Thêm cảnh báo đặc biệt cho đại số
+    if (currentSubject === "toan-dai") {
+        canhBao.push("cần kiểm tra lại phép biến đổi");
+        canhBao.push("điều kiện xác định chưa đầy đủ");
+    }
+    
     return canhBao.some(tu => noiDung.includes(tu));
 }
-
 // Trong hàm guiTinNhan
 themTinNhanVaoGiaoDien("bot", traLoiBot);
 if (currentSubject === "toan" && kiemTraToan(traLoiBot)) {
