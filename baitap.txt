@@ -60,3 +60,17 @@ Bài 2: Mô tả một đặc sản nổi tiếng của quê hương em.
 Bài 3: Nêu tên một di tích lịch sử hoặc danh lam thắng cảnh ở địa phương em.
 Bài 4: Viết 3-5 câu về nét đẹp văn hóa của địa phương em.
 Bài 5: Tại sao cần giữ gìn và phát huy truyền thống văn hóa địa phương?
+
+#giao-duc-the-chat
+Câu hỏi: Kể tên 3 môn thể thao sử dụng bóng mà em biết.|Đáp án: Bóng đá, bóng rổ, bóng chuyền
+Câu hỏi: Lợi ích của việc chạy bộ mỗi ngày là gì?|Đáp án: Tăng cường sức khỏe tim mạch, cải thiện thể lực, giảm căng thẳng
+Câu hỏi: Mô tả cách thực hiện động tác nhảy dây cơ bản.|Đáp án: Cầm dây, xoay dây qua đầu, nhảy qua dây bằng hai chân khi dây chạm đất
+Câu hỏi: Tại sao cần thả lỏng cơ thể sau khi tập thể dục?|Đáp án: Giúp cơ bắp thư giãn, giảm đau nhức và phục hồi nhanh hơn
+Câu hỏi: Viết 3 câu nêu các bài tập thể chất đơn giản em có thể thực hiện tại nhà.|Đáp án: (Ví dụ) 1. Em tập hít đất để tăng sức mạnh tay. 2. Em nhảy tại chỗ để rèn luyện tim mạch. 3. Em tập plank để tăng cường cơ bụng
+#stem
+Câu hỏi: Kể tên 3 lĩnh vực chính thuộc STEM.|Đáp án: Khoa học, Công nghệ, Kỹ thuật, Toán học
+Câu hỏi: Mô tả một thí nghiệm đơn giản để kiểm tra trọng lực.|Đáp án: Thả hai quả bóng có trọng lượng khác nhau từ cùng độ cao và quan sát thời gian chạm đất
+Câu hỏi: Ứng dụng của robot trong đời sống là gì?|Đáp án: (Ví dụ) Robot hút bụi giúp làm sạch nhà cửa
+Câu hỏi: Tại sao học STEM giúp ích cho tương lai?|Đáp án: Phát triển tư duy logic, sáng tạo và chuẩn bị cho các ngành nghề công nghệ cao
+Câu hỏi: Đề xuất một ý tưởng dự án STEM để tiết kiệm nước.|Đáp án: (Gợi ý) Làm mô hình thu gom nước mưa để tưới cây
+
