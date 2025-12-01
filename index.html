@@ -3,8 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ứng dụng và trợ lý ảo trí tuệ nhân tạo học
-tập trong trường THCS</title>
+    <title>Ứng dụng Chatbot học tập tích hợp trí tuệ nhân tạo hỗ trợ học sinh trung học cơ sở theo chương trình GDPT 2018</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600&display=swap');
@@ -406,8 +405,7 @@ tập trong trường THCS</title>
        <img src="https://images.squarespace-cdn.com/content/v1/590b1f48e6f2e17836ea5649/bc0bccc3-bb7d-4dd8-ad86-6061f990a3b2/20240918-01.png?format=2500w" 
          alt="Logo trường THCS Nguyễn Tri Phương" 
          class="homepage-main-logo">
-        <h1>Ứng dụng và trợ lý ảo trí tuệ nhân tạo học
-tập trong trường THCS</h1>
+        <h1>Ứng dụng Chatbot học tập tích hợp trí tuệ nhân tạo hỗ trợ học sinh trung học cơ sở theo chương trình GDPT 2018</h1>
         <div class="subject-buttons">
             <button class="subject-button" data-subject="ngu-van">
                 <i class="fas fa-book-open"></i>
@@ -518,7 +516,7 @@ tập trong trường THCS</h1>
     
     <div class="footer">
         <div class="footer-content">
-            @Copyright thuvienhoctap - Design by Nguyen Thanh Tinh
+            @Copyright thuvienhoctap - Design by Nguyễn Thanh Tịnh
         </div>
         <div></div>
     </div>
@@ -534,9 +532,9 @@ tập trong trường THCS</h1>
         import { GoogleGenerativeAI } from "@google/generative-ai";
 
         // Thay thế "YOUR_API_KEY" bằng khóa API thực tế của bạn
-        const KHOA_API ="AIzaSyAboqphb7mWDWooaewnu73IlLI4XFs7kTg"; 
+        const KHOA_API = "AIzaSyAboqphb7mWDWooaewnu73IlLI4XFs7kTg"; 
         const moHinhAI = new GoogleGenerativeAI(KHOA_API);
-        const moHinh = moHinhAI.getGenerativeModel({ model: "gemini-2.5-flash-lite" });
+        const moHinh = moHinhAI.getGenerativeModel({ model: "gemini-2.0-flash-thinking-exp-01-21" });
 
         const homeMenu = document.getElementById('home-menu');
         const chatbotContainer = document.getElementById('chatbot-container');
